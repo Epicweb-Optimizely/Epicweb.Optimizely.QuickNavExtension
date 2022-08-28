@@ -35,14 +35,14 @@ To only show logout item, apply this appsettings:
 
 **Alternate way to register links:**
 
-Statup.cs
+Startup.cs
 
  ```       
 
  using Epicweb.Optimizely.QuickNavExtension;
 
-        //add links in a simple way in startup. 
-        services
+    //add links in a simple way in startup. 
+    services
             .AddQuickNav("Custom link", "https://devblog.gosso.se/", role: "WebDevs")
             .AddQuickNav("Custom Javascript", "javascript:if(confirm(\'R U SURE?\')){document.location=\'/\';}", role: "WebDevs")
             .AddQuickNav("find")
