@@ -82,8 +82,9 @@ namespace Epicweb.Optimizely.QuickNavExtension
 
             if (keyWord.ToLower() == "find")
             {
-                var find = GetEditUrl() + UIPathResolver.Instance.CombineWithUI("../find/");
-                return new QuickNavigatorMenuItem("Find", find, null, "true", null);
+                var findurl = GetEditUrl() + UIPathResolver.Instance.CombineWithUI("../find/");
+                var findTitle = LocalizationService.Current.GetString("/addon/quicknav/find", "Search & Navigation");
+                return new QuickNavigatorMenuItem(findTitle, findurl, null, "true", null);
             }
 
             if (keyWord.ToLower() == "admin")
