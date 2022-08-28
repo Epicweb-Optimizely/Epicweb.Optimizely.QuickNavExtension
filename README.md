@@ -64,7 +64,7 @@ or ```“logout||WebEditors”``` <= only WebEditors will see the logout menu
 
 1. Clone it
 
-2. Unpack the /app_data/blobs-and-database.zip
+2. Unpack the /alloy/app_data/blobs-and-database.zip
 
 3. dotnet run
 
