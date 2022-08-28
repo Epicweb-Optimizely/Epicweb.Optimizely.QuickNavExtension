@@ -7,6 +7,8 @@
 An Optimizely addon that helps and adds menu items to the QuickNavigationMenu when logged in on public site, 
 All configurable links to Search & navigation, admin, admin content type, and logout. Even custom links!
 
+![alt text](https://github.com/Epicweb-Optimizely/Epicweb.Optimizely.QuickNavExtension/blob/main/QuickNavExtension.png?raw=true "This is how the QuickNavExtension could look")
+
 **This is the .net 6 version of : https://github.com/LucGosso/Gosso.EPiServerAddOn.QuickNavExtension ** <-- use this for CMS 11
 
 # Installation and configuration 
