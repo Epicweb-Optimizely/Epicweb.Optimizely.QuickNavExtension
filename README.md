@@ -26,7 +26,7 @@ Default menus are Admin and logout, to activate other menu items apply this apps
 
 You can add custom menu items, Name and url with pipe in between. Name can be resource path eg /shell/admin/logout
 
-```"Epicweb.QuickNav": "Custom link|https://devblog.gosso.se,find,admin,contenttype,logout"```
+```"Epicweb.QuickNav": "Custom link|https://devblog.gosso.se,Custom Javascript|javascript:alert('Hey you'),find,admin,contenttype,logout"```
 
 To only show logout item, apply this appsettings: 
 
