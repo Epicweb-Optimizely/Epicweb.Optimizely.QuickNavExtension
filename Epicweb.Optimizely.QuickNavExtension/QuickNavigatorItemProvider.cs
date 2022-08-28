@@ -19,6 +19,10 @@ namespace Epicweb.Optimizely.QuickNavExtension
     public static class QuickNavigator
     {
         public static List<QuickNavRule> Rules = new List<QuickNavRule>();
+        public const string Admin = "admin";
+        public const string ContentType = "contenttype";
+        public const string FIND = "find";
+        public const string LogOut = "logout";
     }
 
     public class QuickNavRule
@@ -116,14 +120,14 @@ namespace Epicweb.Optimizely.QuickNavExtension
                     return null;
             }
 
-            if (keyWord.ToLower() == "find")
+            if (keyWord.ToLower() == QuickNavigator.FIND)
             {
                 var findurl = GetEditUrl() + UIPathResolver.Instance.CombineWithUI("../find/");
                 var findTitle = LocalizationService.Current.GetString("/addon/quicknav/find", "Search & Navigation");
                 return new QuickNavigatorMenuItem(findTitle, findurl, null, "true", null);
             }
 
-            if (keyWord.ToLower() == "admin")
+            if (keyWord.ToLower() == QuickNavigator.Admin)
             {
 
                 if (!httpContextAccessor.HttpContext.User.IsInRole("WebAdmins"))
@@ -134,7 +138,7 @@ namespace Epicweb.Optimizely.QuickNavExtension
                 return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
             }
 
-            if (keyWord.ToLower() == "contenttype")
+            if (keyWord.ToLower() == QuickNavigator.ContentType)
             {
            
                 if (!httpContextAccessor.HttpContext.User.IsInRole("WebAdmins"))
@@ -153,7 +157,7 @@ namespace Epicweb.Optimizely.QuickNavExtension
                 return null;
             }
 
-            if (keyWord.ToLower() == "logout")
+            if (keyWord.ToLower() == QuickNavigator.LogOut)
             {
                 var urlBuilder = new UrlBuilder(Constants.LogoutUrl);
 

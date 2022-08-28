@@ -41,10 +41,11 @@ public class Startup
         services
             .AddQuickNav("Custom link", "https://devblog.gosso.se/", role: "WebDevs")
             .AddQuickNav("Custom Javascript", "javascript:if(confirm(\'R U SURE?\')){document.location=\'/\';}", role: "WebDevs")
-            .AddQuickNav("find")
-            .AddQuickNav("admin")
-            .AddQuickNav("contenttype")
-            .AddQuickNav("logout");
+            .AddQuickNav(QuickNavigator.FIND)
+            .AddQuickNav(QuickNavigator.Admin)
+            .AddQuickNav(QuickNavigator.ContentType)
+            //.AddQuickNav("wrong input")
+            .AddQuickNav(QuickNavigator.LogOut);
 
 
         // Required by Wangkanai.Detection

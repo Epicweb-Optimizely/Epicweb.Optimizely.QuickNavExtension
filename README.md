@@ -43,12 +43,12 @@ Startup.cs
 
     //add links in a simple way in startup. 
     services
-            .AddQuickNav("Custom link", "https://devblog.gosso.se/", role: "WebDevs")
-            .AddQuickNav("Custom Javascript", "javascript:if(confirm(\'R U SURE?\')){document.location=\'/\';}", role: "WebDevs")
-            .AddQuickNav("find")
-            .AddQuickNav("admin")
-            .AddQuickNav("contenttype")
-            .AddQuickNav("logout");
+        .AddQuickNav("Custom link", "https://devblog.gosso.se/", role: "WebDevs")
+        .AddQuickNav("Custom Javascript", "javascript:if(confirm(\'R U SURE?\')){document.location=\'/\';}", role: "WebDevs")
+        .AddQuickNav(QuickNavigator.FIND)
+        .AddQuickNav(QuickNavigator.Admin)
+        .AddQuickNav(QuickNavigator.ContentType)
+        .AddQuickNav(QuickNavigator.LogOut);
             
  ```
 
