@@ -59,3 +59,13 @@ You can add a third pipe with rolename from Epi.
 eg: ```“Link title|/urlForDevsOnly/|WebDevs”``` <= only WebDevs will see the menu
 
 or ```“logout||WebEditors”``` <= only WebEditors will see the logout menu
+
+**Get this solution runing**
+
+1. Clone it
+
+2. Unpack the /app_data/blobs-and-database.zip
+
+3. dotnet run
+
+4. log in to CMS with "admin" and "Test1234!"
