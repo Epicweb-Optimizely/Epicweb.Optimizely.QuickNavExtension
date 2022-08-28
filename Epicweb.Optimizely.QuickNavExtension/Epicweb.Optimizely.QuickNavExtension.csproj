@@ -23,10 +23,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS.Core" Version="12.8.0" />
-    <PackageReference Include="EPiServer.CMS.UI.Core" Version="12.9.0" />
-    <PackageReference Include="EPiServer.Find" Version="14.1.0" />
-    <PackageReference Include="EPiServer.Framework" Version="12.8.0" />
+    <PackageReference Include="EPiServer.CMS.Core" Version="12.6.0" />
+	<PackageReference Include="EPiServer.CMS.UI.Core" Version="12.6.0" />
+	<PackageReference Include="EPiServer.Framework" Version="12.6.0" />
   </ItemGroup>
 
 
