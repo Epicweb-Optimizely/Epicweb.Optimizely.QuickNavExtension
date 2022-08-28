@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using EditUrlResolver = EPiServer.Cms.Shell.Service.Internal.EditUrlResolver;
 
 namespace Epicweb.Optimizely.QuickNavExtension
@@ -31,7 +33,7 @@ namespace Epicweb.Optimizely.QuickNavExtension
 
         public IDictionary<string, QuickNavigatorMenuItem> GetMenuItems(ContentReference currentContent)
         {
-            var appsetting = _configuration.GetSection("QuickNav")?.Value;
+            var appsetting = _configuration.GetSection("Epicweb.QuickNav")?.Value;
 
             string[] menuitems = new string[] { "admin", "logout" };
             if (!String.IsNullOrEmpty(appsetting))
@@ -45,17 +47,21 @@ namespace Epicweb.Optimizely.QuickNavExtension
             {
                 if (!String.IsNullOrEmpty(item))
                 {
-                    var menu = DoMagic(item, currentContent);
+                    var menu = EvaluateRule(item, currentContent);
                     if (menu != null)
                         dictionary.Add(item, menu);
                 }
             }
 
-
-
             return dictionary;
         }
-        private QuickNavigatorMenuItem DoMagic(string item, ContentReference currentContent)
+        /// <summary>
+        /// Evalutates the "Rule" at run time
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="currentContent"></param>
+        /// <returns></returns>
+        private QuickNavigatorMenuItem EvaluateRule(string item, ContentReference currentContent)
         {
 
             string keyWord = item;
@@ -74,19 +80,11 @@ namespace Epicweb.Optimizely.QuickNavExtension
                 keyWord = arr[0];
             }
 
-            if (keyWord.ToLower() == "imagevault")
-            {
-                var vaulturl = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../ImageVault.EPiServer.UI/ImageVaultUi");
-                return new QuickNavigatorMenuItem("Imagevault", vaulturl, null, "true", null);
-
-            }
-
             if (keyWord.ToLower() == "find")
             {
-                var find = GetEditUrl() + UriSupport.ResolveUrlFromUIBySettings("../find/");
+                var find = GetEditUrl() + UIPathResolver.Instance.CombineWithUI("../find/");
                 return new QuickNavigatorMenuItem("Find", find, null, "true", null);
             }
-
 
             if (keyWord.ToLower() == "admin")
             {
@@ -94,9 +92,7 @@ namespace Epicweb.Optimizely.QuickNavExtension
                 if (!httpContextAccessor.HttpContext.User.IsInRole("WebAdmins"))
                     return null;
 
-                var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
-
-                editUrl = editUrl.ReplaceAfter("CMS", "EPiServer.Cms.UI.Admin/default");
+                var editUrl = GetAdminUrl(currentContent);
 
                 return new QuickNavigatorMenuItem("/shell/cms/menu/admin", editUrl, null, "true", null);
             }
@@ -107,13 +103,13 @@ namespace Epicweb.Optimizely.QuickNavExtension
                 if (!httpContextAccessor.HttpContext.User.IsInRole("WebAdmins"))
                     return null;
 
-                var editUrl = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
+                var editUrl = GetAdminUrl(currentContent);
 
                 PageData pd = null;
 
                 if (this._contentLoader.TryGet<PageData>(currentContent, out pd))
                 {
-                    editUrl = editUrl.Replace("#", "admin/default.aspx?customdefaultpage=admin/EditContentType.aspx?typeId=" + pd.ContentTypeID + "#");
+                    editUrl = editUrl + "#/ContentTypes/edit-content-type/" + pd.ContentTypeID;
                     var n = LocalizationService.Current.GetString("/addon/quicknav/pagetype", "Admin pagetype") + " " + pd.PageTypeName;
                     return new QuickNavigatorMenuItem(n, editUrl, null, "true", null);
                 }
@@ -148,20 +144,18 @@ namespace Epicweb.Optimizely.QuickNavExtension
             }
 
             //oh no... 
-            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong config in Appsetting Gosso.QuickNav')", null, "true", null);
+            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong config in Appsetting QuickNav')", null, "true", null);
+        }
+
+        private string GetAdminUrl(ContentReference currentContent)
+        {
+            var url = GetEditUrl() + EPiServer.Editor.PageEditing.GetEditUrl(currentContent);
+            return url.ReplaceAfter("CMS", "EPiServer.Cms.UI.Admin/default");
         }
 
         private string GetEditUrl()
         {
-
-            //Url editViewUrl = editUrlResolver.GetFullUrlToEditView(new EditUrlArguments()
-            //{
-            //    ForceEditHost = true
-            //});
-            Url editViewUrl = _editUrlResolver.GetFullUrlToEditView(new SiteDefinition()
-            {
-
-            });
+            Url editViewUrl = _editUrlResolver.GetFullUrlToEditView(new SiteDefinition());
             return editViewUrl?.Uri.ToString().Replace(editViewUrl.Path, "");//Just want the HOST to *EDIT*
         }
 

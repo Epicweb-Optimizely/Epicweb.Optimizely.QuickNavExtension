@@ -1,6 +1,7 @@
 ﻿using EPiServer.Cms.Shell.UI.Attributes;
 using EPiServer.Shell.Security;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Epicweb.Optimizely.QuickNavExtension
 {

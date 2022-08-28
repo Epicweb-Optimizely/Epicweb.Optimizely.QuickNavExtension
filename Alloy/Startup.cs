@@ -4,6 +4,8 @@ using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using EPiServer.Find;
+using EPiServer.Find.Cms;
 
 namespace Epicweb.Alloy.QuickNavExtension;
 
@@ -30,7 +32,9 @@ public class Startup
             .AddCms()
             .AddAlloy()
             .AddAdminUserRegistration()
-            .AddEmbeddedLocalization<Startup>();
+            .AddEmbeddedLocalization<Startup>()
+            .AddFind();
+            //.AddFindCore();
 
         // Required by Wangkanai.Detection
         services.AddDetection();
