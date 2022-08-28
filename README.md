@@ -20,20 +20,20 @@ Run "install-package Epicweb.Optimizely.QuickNavExtension" in package manager co
 
 Default menus are Admin and logout, to activate other menu items apply this appsettings: (they are sortable)
 
-"Epicweb.QuickNav": "find,admin,contenttype,logout"
+```"Epicweb.QuickNav": "find,admin,contenttype,logout"```
 
 You can add custom menu items, Name and url with pipe in between. Name can be resource path eg /shell/admin/logout
 
-  "Epicweb.QuickNav": "Custom link|https://devblog.gosso.se,find,admin,contenttype,logout"
+```"Epicweb.QuickNav": "Custom link|https://devblog.gosso.se,find,admin,contenttype,logout"```
 
 To only show logout item, apply this appsettings: 
 
-  "Epicweb.QuickNav": "logout"
+```"Epicweb.QuickNav": "logout"```
 
 **Role Base Links**
 
-From version 2.1 you can add a third pipe with rolename from Epi.
+You can add a third pipe with rolename from Epi.
 
-eg: “Link title|/urlForDevsOnly/|WebDevs” <= only WebDevs will see the menu
+eg: ```â€œLink title|/urlForDevsOnly/|WebDevsâ€``` <= only WebDevs will see the menu
 
-or “logout||WebEditors” <=only WebEditors will see the logout menu
+or ```â€œlogout||WebEditorsâ€``` <= only WebEditors will see the logout menu
