@@ -6,6 +6,7 @@ using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
+using Epicweb.Optimizely.QuickNavExtension;
 
 namespace Epicweb.Alloy.QuickNavExtension;
 
@@ -34,7 +35,17 @@ public class Startup
             .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>()
             .AddFind();
-            //.AddFindCore();
+        //.AddFindCore();
+
+        //add links in a simple way in startup. 
+        services
+            .AddQuickNav("Custom link", "https://devblog.gosso.se/", role: "WebDevs")
+            .AddQuickNav("Custom Javascript", "javascript:if(confirm(\'R U SURE?\')){document.location=\'/\';}", role: "WebDevs")
+            .AddQuickNav("find")
+            .AddQuickNav("admin")
+            .AddQuickNav("contenttype")
+            .AddQuickNav("logout");
+
 
         // Required by Wangkanai.Detection
         services.AddDetection();

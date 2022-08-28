@@ -11,10 +11,23 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EditUrlResolver = EPiServer.Cms.Shell.Service.Internal.EditUrlResolver;
 
 namespace Epicweb.Optimizely.QuickNavExtension
 {
+    public static class QuickNavigator
+    {
+        public static List<QuickNavRule> Rules = new List<QuickNavRule>();
+    }
+
+    public class QuickNavRule
+    {
+        public string TitleOrLocalisationString { get; set; }
+        public string UrlOrJavascript { get; set; }
+        public string Role { get; set; }
+    }
+
     [ServiceConfiguration(typeof(IQuickNavigatorItemProvider))]
     public class QuickNavigatorItemProvider : IQuickNavigatorItemProvider
     {
@@ -33,51 +46,74 @@ namespace Epicweb.Optimizely.QuickNavExtension
 
         public IDictionary<string, QuickNavigatorMenuItem> GetMenuItems(ContentReference currentContent)
         {
-            var appsetting = _configuration.GetSection("Epicweb.QuickNav")?.Value;
-
-            string[] menuitems = new string[] { "admin", "logout" };
-            if (!String.IsNullOrEmpty(appsetting))
+            if (!QuickNavigator.Rules.Any())
             {
-                menuitems = appsetting.Split(",".ToCharArray());
+                var appsetting = _configuration.GetSection("Epicweb.QuickNav")?.Value;
+
+                string[] menuitems = new string[] { "admin", "logout" };
+                if (!String.IsNullOrEmpty(appsetting))
+                {
+                    menuitems = appsetting.Split(",".ToCharArray());
+                }
+
+                foreach (var item in menuitems)
+                {
+                    if (!String.IsNullOrEmpty(item))
+                    {
+                        var rule = CreateRule(item);
+                        if (rule != null)
+                            QuickNavigator.Rules.Add(rule);
+                    }
+                }
             }
 
             var dictionary = new Dictionary<string, QuickNavigatorMenuItem>();
 
-            foreach (var item in menuitems)
+            foreach (var rule in QuickNavigator.Rules)
             {
-                if (!String.IsNullOrEmpty(item))
+                if (!String.IsNullOrEmpty(rule?.TitleOrLocalisationString))
                 {
-                    var menu = EvaluateRule(item, currentContent);
+                    var menu = EvaluateRule(rule, currentContent);
                     if (menu != null)
-                        dictionary.Add(item, menu);
+                        dictionary.Add(rule.TitleOrLocalisationString, menu);
                 }
             }
 
             return dictionary;
         }
-        /// <summary>
-        /// Evalutates the "Rule" at run time
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="currentContent"></param>
-        /// <returns></returns>
-        private QuickNavigatorMenuItem EvaluateRule(string item, ContentReference currentContent)
-        {
 
-            string keyWord = item;
+        private QuickNavRule CreateRule(string item)
+        {
+            QuickNavRule rule = new QuickNavRule();
+            rule.TitleOrLocalisationString = item;
             string[] arr = new string[0];
             if (item.IndexOf("|") > 0)
             {
                 arr = item.Split('|');
-                if (arr.Length > 2)
+                if (arr.Length > 1 && !string.IsNullOrEmpty(arr[2]))
                 {
-                    if (!string.IsNullOrEmpty(arr[2]))
-                    {
-                        if (!httpContextAccessor.HttpContext.User.IsInRole(arr[2]))
-                            return null;
-                    }
+                        rule.Role = arr[2];
                 }
-                keyWord = arr[0];
+                rule.TitleOrLocalisationString = arr[0];
+                rule.UrlOrJavascript = arr[1];
+            }
+            return rule;
+        }
+
+        /// <summary>
+        /// Evalutates the "Rule" at run time
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="currentContent"></param>
+        /// <returns></returns>
+        private QuickNavigatorMenuItem EvaluateRule(QuickNavRule rule, ContentReference currentContent)
+        {
+
+            string keyWord = rule.TitleOrLocalisationString;
+
+            if (rule.Role != null && (!httpContextAccessor.HttpContext.User.IsInRole(rule.Role)))
+            {
+                    return null;
             }
 
             if (keyWord.ToLower() == "find")
@@ -139,13 +175,13 @@ namespace Epicweb.Optimizely.QuickNavExtension
                 return new QuickNavigatorMenuItem("/shell/cms/menu/logout", urlBuilder.ToString(), null, "true", null);
             }
 
-            if (arr.Length > 1)
+            if (!string.IsNullOrEmpty(rule.UrlOrJavascript))
             {
-                return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(arr[0], arr[0]), arr[1], null, "true", null);
+                return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(rule.TitleOrLocalisationString, rule.TitleOrLocalisationString), rule.UrlOrJavascript, null, "true", null);
             }
 
             //oh no... 
-            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(item, item), "javascript:alert('Wrong config in Appsetting QuickNav')", null, "true", null);
+            return new QuickNavigatorMenuItem(LocalizationService.Current.GetString(rule.TitleOrLocalisationString, rule.TitleOrLocalisationString), "javascript:alert('Wrong config in Appsetting QuickNav')", null, "true", null);
         }
 
         private string GetAdminUrl(ContentReference currentContent)

@@ -20,7 +20,7 @@ This can be installed via the package manager console in Visual Studio.
 Run "install-package Epicweb.Optimizely.QuickNavExtension" in package manager console.
 
 
-Default menus are Admin and logout, to activate other menu items apply this appsettings: (they are sortable)
+Default menus are Admin and logout, to activate other menu items apply this appsettings.json: (they are sortable)
 
 ```"Epicweb.QuickNav": "find,admin,contenttype,logout"```
 
@@ -31,6 +31,26 @@ You can add custom menu items, Name and url with pipe in between. Name can be re
 To only show logout item, apply this appsettings: 
 
 ```"Epicweb.QuickNav": "logout"```
+
+
+**Alternate way to register links:**
+
+Statup.cs
+
+ ```       
+
+ using Epicweb.Optimizely.QuickNavExtension;
+
+        //add links in a simple way in startup. 
+        services
+            .AddQuickNav("Custom link", "https://devblog.gosso.se/", role: "WebDevs")
+            .AddQuickNav("Custom Javascript", "javascript:if(confirm(\'R U SURE?\')){document.location=\'/\';}", role: "WebDevs")
+            .AddQuickNav("find")
+            .AddQuickNav("admin")
+            .AddQuickNav("contenttype")
+            .AddQuickNav("logout");
+            
+ ```
 
 **Role Base Links**
 
