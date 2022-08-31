@@ -4,6 +4,8 @@
 
 [![Platform](https://img.shields.io/badge/Platform-.NET%206-blue.svg?style=flat)](https://msdn.microsoft.com/en-us/library/w0x726c2%28v=vs.110%29.aspx) [![Platform](https://img.shields.io/badge/Optimizely-%2012.6-green.svg?style=flat)](https://world.optimizely.com/products/#contentcloud)
 
+[![Twitter Follow](https://img.shields.io/twitter/follow/lucgosso.svg?style=social&label=Follow)](https://twitter.com/lucgosso)
+
 An Optimizely addon that helps and adds menu items to the QuickNavigationMenu when logged in on public site, 
 All configurable links to Search & navigation, admin, admin content type, and logout. Even custom links!
 
