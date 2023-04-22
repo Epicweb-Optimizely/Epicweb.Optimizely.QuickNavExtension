@@ -7,6 +7,9 @@ using EPiServer.Web.Routing;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
 using Epicweb.Optimizely.QuickNavExtension;
+using EPiServer.Cms.Shell.UI.Attributes;
+using EPiServer.Shell.Security;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Epicweb.Alloy.QuickNavExtension;
 
@@ -77,6 +80,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapControllers();//add this to make [Route("")] work
             endpoints.MapContent();
         });
     }

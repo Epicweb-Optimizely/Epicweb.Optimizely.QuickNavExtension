@@ -11,7 +11,7 @@
 	<Authors>Luc Gosso</Authors>
 	<Company>Epicweb</Company>
 	<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-	<PackageProjectUrl>https://</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/epicweb-optimizely/Epicweb.Optimizely.QuickNavExtension</PackageProjectUrl>
 	<PackageIcon>icon.png</PackageIcon>
 	<PackageIconUrl>https://epicweb.se/icons/favicon-128.png</PackageIconUrl>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
