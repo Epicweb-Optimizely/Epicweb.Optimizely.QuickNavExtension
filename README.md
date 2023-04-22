@@ -19,7 +19,7 @@ Available on nuget.optimizely.com https://nuget.optimizely.com/package/?id=Epicw
 
 This can be installed via the package manager console in Visual Studio.
 
-Run "install-package Epicweb.Optimizely.QuickNavExtension" in package manager console.
+Run ```install-package Epicweb.Optimizely.QuickNavExtension``` in package manager console.
 
 
 Default menus are Admin and logout, to activate other menu items apply this appsettings.json: (they are sortable)
@@ -62,6 +62,8 @@ eg: ```“Link title|/urlForDevsOnly/|WebDevs”``` <= only WebDevs will see the
 
 or ```“logout||WebEditors”``` <= only WebEditors will see the logout menu
 
+# Sandbox alloy app
+
 **Get this solution runing**
 
 1. Clone it
@@ -71,3 +73,7 @@ or ```“logout||WebEditors”``` <= only WebEditors will see the logout menu
 3. dotnet run
 
 4. log in to CMS with "admin" and "Test1234!"
+
+# Package maintainer
+
+https://github.com/lucgosso
